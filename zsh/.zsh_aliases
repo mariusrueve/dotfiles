@@ -1,0 +1,72 @@
+# Quick directory navigation
+alias ..='cd ..'
+
+# Directory listing with different options
+alias ls='ls --color=auto'
+alias ll='ls -lh'
+alias la='ls -lah'
+alias lt='ls -ltrh'        # Sort by time, newest last
+alias lS='ls -lahS'        # Sort by size, largest last
+
+# Directory shortcuts
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
+alias dc="cd ~/Documents"
+alias p="cd ~/Projects"
+
+# Quick directory creation and navigation
+alias md='mkdir -p'
+# Create a new directory and enter it
+alias mkcd='function _mkcd() { mkdir -p "$1" && cd "$1"; }; _mkcd'
+
+# File operations
+alias cp='cp -iv'          # Interactive and verbose copy
+alias mv='mv -iv'          # Interactive and verbose move
+
+# File search and grep
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias h='history | grep'   # Search command history
+
+# Quick find commands
+alias ff='find . -type f -name'
+alias fd='find . -type d -name'
+
+
+# System updates (adjust based on your distro)
+# Ubuntu/Debian:
+alias update='sudo apt update && sudo apt upgrade && snap refresh'
+
+# Quick edit of config files
+alias zshrc='${EDITOR:-nano} ~/.zshrc'
+alias bashrc='${EDITOR:-nano} ~/.bashrc'
+alias vimrc='${EDITOR:-nano} ~/.vimrc'
+
+# Reload shell configuration
+alias reload='source ~/.zshrc'
+
+# Clear terminal
+alias c='clear'
+
+# Extract archives
+alias extract='function _extract() {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xjf $1     ;;
+            *.tar.gz)    tar xzf $1     ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar e $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xf $1      ;;
+            *.tbz2)      tar xjf $1     ;;
+            *.tgz)       tar xzf $1     ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)           echo "\"$1\" cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "\"$1\" is not a valid file"
+    fi
+}; _extract'
