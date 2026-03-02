@@ -1,0 +1,57 @@
+export EDITOR="nano"
+export LANG=en_US.UTF-8
+
+# History configuration
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=50000
+export SAVEHIST=50000
+
+# History behavior
+setopt EXTENDED_HISTORY          # Write timestamps to history
+setopt SHARE_HISTORY             # Share history across multiple zsh sessions
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space
+
+# Directory navigation
+setopt AUTO_CD                   # cd by typing directory name if it's not a command
+setopt AUTO_PUSHD                # Push the current directory visited on the stack
+setopt PUSHD_IGNORE_DUPS         # Do not store duplicates in the stack
+
+fpath=(~/.zsh/completions $fpath)
+autoload -Uz compinit
+# Only check for new completion files once a day to speed up startup
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
+# Use a menu for completion selection
+# Combine case-insensitivity, partial matching, caching, colors, and spellcheck
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+
+# Up/Down arrows search history based on what you've already typed
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+# Initialize mise and starship
+eval "$(/Users/marius/.local/bin/mise activate zsh)"
+eval "$(starship init zsh)"
+
+# Provide completion for uv
+eval "$(uv generate-shell-completion zsh)"
+
+# eza integration
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -la --icons --group-directories-first --git"
+alias la="eza -a --icons --group-directories-first --git"
+alias tree="eza --tree --icons"
+

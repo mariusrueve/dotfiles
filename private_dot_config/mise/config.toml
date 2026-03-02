@@ -1,0 +1,11 @@
+[tools]
+bottom = "latest"
+chezmoi = "latest"
+eza = "latest"
+github-cli = "latest"
+lazygit = "latest"
+starship = "latest"
+uv = "latest"
+gemini-cli = "latest"
+node = "latest"
+codex = "latest"

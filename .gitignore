@@ -1,0 +1,15 @@
+# Ignore local chezmoi config (if any)
+.chezmoi.yaml
+.chezmoi.toml
+.chezmoidata.toml
+.chezmoitemplates/
+.chezmoiroot
+
+# Ignore OS-specific files
+.DS_Store
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+*.swp
+*~
