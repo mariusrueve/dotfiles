@@ -24,7 +24,7 @@ To initialize these dotfiles on a new machine:
 
 3. **Initialize dotfiles**:
    ```bash
-   chezmoi init --apply <your-username>
+   chezmoi init --apply mariusrueve
    ```
 
 ## Structure
