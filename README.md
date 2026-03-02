@@ -14,7 +14,7 @@ To initialize these dotfiles on a new machine:
 
 1. **Install mise**:
    ```bash
-   curl https://mise.jdx.dev/install.sh | sh
+   curl https://mise.run | sh
    ```
 
 2. **Install chezmoi via mise**:
