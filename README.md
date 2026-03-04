@@ -30,4 +30,4 @@ To initialize these dotfiles on a new machine:
 ## Structure
 - `dot_zshrc`: Zsh configuration.
 - `dot_gitconfig`: Git global config.
-- `private_dot_config/mise/config.toml`: `mise` tool definitions.
+- `dot_config/mise/config.toml`: `mise` tool definitions.
