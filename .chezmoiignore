@@ -1,0 +1,3 @@
+{{ if eq .chezmoi.hostname "hamm" }}
+.ssh/config
+{{ end }}

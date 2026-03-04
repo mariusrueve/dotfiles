@@ -1,0 +1,17 @@
+Host *
+  ServerAliveInterval 60
+  ServerAliveCountMax 5
+  TCPKeepAlive yes
+
+Host zbh_tunnel
+  Port 7373
+  User mrueve
+  Hostname bari.zbh.uni-hamburg.de
+
+Match Host hamm exec "timeout 1s nc -z -w 1 hamm.zbh.uni-hamburg.de 22"
+  ProxyJump none
+
+Host hamm
+  Hostname hamm.zbh.uni-hamburg.de
+  User mrueve
+  ProxyCommand ssh -W %h:%p zbh_tunnel
