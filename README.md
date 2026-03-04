@@ -29,5 +29,11 @@ To initialize these dotfiles on a new machine:
 
 ## Structure
 - `dot_zshrc`: Zsh configuration.
-- `dot_gitconfig`: Git global config.
+- `dot_gitconfig.tmpl`: Git global config template (host-specific identity).
 - `dot_config/mise/config.toml`: `mise` tool definitions.
+
+## Workflow Notes
+- After running `mise use -g ...`, sync the updated file back into chezmoi source:
+   ```bash
+   chezmoi re-add ~/.config/mise/config.toml
+   ```
