@@ -24,8 +24,8 @@ setopt PUSHD_IGNORE_DUPS         # Do not store duplicates in the stack
 
 fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit
-# Only check for new completion files once a day to speed up startup
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+# Rebuild completion dump daily or when completion directory has changed
+if [[ ! -f ~/.zcompdump || -n ~/.zcompdump(#qN.mh+24) || ~/.zsh/completions -nt ~/.zcompdump ]]; then
   compinit
 else
   compinit -C
