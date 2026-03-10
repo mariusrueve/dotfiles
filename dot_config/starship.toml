@@ -2,6 +2,8 @@
 
 continuation_prompt = "[.](bright-black) "
 
+scan_timeout = 200
+
 [character]
 success_symbol = "[>](bold green)"
 error_symbol = "[x](bold red)"
