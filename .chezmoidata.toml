@@ -1,0 +1,6 @@
+university_servers = [
+    "bari",
+    "hamm",
+    "hessen",
+    "sachsen"
+]
