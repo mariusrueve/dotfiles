@@ -1,5 +1,5 @@
 [user]
-{{- if eq .chezmoi.hostname "hamm" }}
+{{- if has .chezmoi.hostname .university_servers }}
 	name = mrueve
 	email = marius.rueve@uni-hamburg.de
 {{- else }}
