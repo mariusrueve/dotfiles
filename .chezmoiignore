@@ -1,4 +1,4 @@
-{{ if eq .chezmoi.hostname "hamm" }}
+{{ if ne .chezmoi.hostname "orangutan" }}
 .ssh/config
 {{ end }}
 README.md
