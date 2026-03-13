@@ -24,3 +24,20 @@ zstyle ':completion:*' menu select
 eval "$(mise activate zsh)"
 eval "$(starship init zsh)"
 eval "$(fzf --zsh)"
+
+# Setup tab completions
+if command -v mise >/dev/null; then
+  eval "$(mise completion zsh)"
+fi
+
+if command -v chezmoi >/dev/null; then
+  eval "$(chezmoi completion zsh)"
+fi
+
+if command -v starship >/dev/null; then
+  eval "$(starship completions zsh)"
+fi
+
+if command -v gh >/dev/null; then
+  eval "$(gh completion -s zsh)"
+fi
