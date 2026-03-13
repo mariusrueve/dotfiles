@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# --- CONFIGURATION ---
+TEMPLATE_DIR="$HOME/.config/latex-templates"
+TEMPLATE_FILE="$TEMPLATE_DIR/presentation/main.tex"
+
+# --- HELPER FUNCTIONS ---
+function show_usage() {
+    echo "Usage: newdeck <project_name>"
+    echo ""
+    echo "Options:"
+    echo "  --edit    Open the master template for editing"
+    echo "  --help    Show this help message"
+    echo ""
+    echo "Example:"
+    echo "  newdeck my-presentation"
+}
+
+# --- ARGUMENT PARSING ---
+case "$1" in
+    -h|--help)
+        show_usage
+        exit 0
+        ;;
+    --edit)
+        echo "Opening template for editing..."
+        # Tries VS Code first, falls back to system default
+        if command -v code &> /dev/null; then
+            code "$TEMPLATE_FILE"
+        else
+            open "$TEMPLATE_FILE"
+        fi
+        exit 0
+        ;;
+    "")
+        echo "Error: You must provide a project name."
+        show_usage
+        exit 1
+        ;;
+    -*)
+        echo "Error: Unknown option '$1'"
+        show_usage
+        exit 1
+        ;;
+esac
+
+# --- MAIN LOGIC ---
+PROJECT_NAME="$1"
+
+if [ -d "$PROJECT_NAME" ]; then
+    echo "Error: Directory '$PROJECT_NAME' already exists."
+    exit 1
+fi
+
+echo "Creating project: $PROJECT_NAME"
+mkdir "$PROJECT_NAME"
+cd "$PROJECT_NAME" || exit
+
+# Check if template exists, if not, create a default one on the fly
+if [ ! -f "$TEMPLATE_FILE" ]; then
+    echo "Warning: Template not found at $TEMPLATE_FILE. Creating default..."
+    mkdir -p "$TEMPLATE_DIR"
+    cat <<EOF > "$TEMPLATE_FILE"
+\documentclass{beamer}
+\usetheme{Madrid}
+\title{Presentation Title}
+\author{Your Name}
+\date{\today}
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+\end{document}
+EOF
+fi
+
+# Copy Template
+cp "$TEMPLATE_FILE" main.tex
+
+# Create Makefile
+cat <<EOF > Makefile
+all:
+	latexmk -pdf main.tex
+
+clean:
+	latexmk -C
+EOF
+
+echo "Done! Opening folder..."
+# Open in VS Code if available, otherwise open Finder
+if command -v code &> /dev/null; then
+    code .
+else
+    open .
+fi
