@@ -1,8 +1,8 @@
 # Only run if interactive
 if [[ $- == *i* ]]; then
-    # Switch to zsh if it's available
-    if command -v zsh >/dev/null 2>&1; then
-        export SHELL=$(command -v zsh)
-        exec "$SHELL" -l
-    fi
+  # Switch to zsh if it's available
+  if command -v zsh >/dev/null 2>&1; then
+    export SHELL=$(command -v zsh)
+    exec "$SHELL" -l
+  fi
 fi
