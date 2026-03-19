@@ -50,6 +50,7 @@ symbol = "cobol "
 
 [conda]
 symbol = "conda "
+ignore_base = false
 
 [container]
 symbol = "container "
