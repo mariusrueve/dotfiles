@@ -1,0 +1,10 @@
+theme="catppuccin_latte"
+
+[editor]
+rulers = [88]
+true-color = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
