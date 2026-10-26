@@ -1,7 +1,8 @@
 # hessen: CLI tools without root (installed to ~/.local/share/mise on NFS).
 # Update: `mise upgrade`. Applied by chezmoi (run_onchange_after_30-mise-install.sh).
 [tools]
-neovim = "latest"
+# The registry default (vfox plugin) fails with HTTP 401 on hessen.
+"github:neovim/neovim" = "latest"
 starship = "latest"
 eza = "latest"
 bat = "latest"
