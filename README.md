@@ -41,6 +41,11 @@ mkdir -p ~/.local/bin && curl -fsSL get.chezmoi.io > /tmp/cz.sh && sh /tmp/cz.sh
 ~/.local/bin/chezmoi init --apply mariusrueve/dotfiles
 ```
 
+The NFS home is shared with bari and the nodes, so the same dotfiles and mise tools appear there too.
+Old pre-Nix tools (`~/.pixi`, `~/.cargo`, `~/.opencode`, `~/.npm-global`) stay on PATH. Files replaced
+during the migration from Nix (2026-10-27) are in `~/pre-chezmoi-backup`.
+If mise reports HTTP 401, the GitHub token in `~/.config/gh/hosts.yml` is stale: run `gh auth login`.
+
 SGE jobs run on other nodes: job environments are uv venvs on `/work` or `/scratch`
 (`UV_PYTHON_INSTALL_DIR` points at NFS). `hessen/backup.sh` is the nightly backup cron
 (deployed copy: `/local/mrueve/scripts/hessen-backup.sh`); chezmoi doesn't install it.
