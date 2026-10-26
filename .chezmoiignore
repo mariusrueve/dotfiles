@@ -1,0 +1,18 @@
+README.md
+AGENTS.md
+CLAUDE.md
+Brewfile
+hessen/
+
+{{ if not .isMac }}
+.aerospace.toml
+.config/kitty
+.config/borders
+.ssh
+{{ end }}
+{{ if not .isHessen }}
+.config/mise
+{{ end }}
+
+# Written by lazy.nvim, not by chezmoi.
+.config/nvim/lazy-lock.json

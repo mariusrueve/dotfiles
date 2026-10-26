@@ -1,0 +1,23 @@
+# LabRoute (cask) writes its own hosts here; must stay at the top.
+Include ~/.ssh/labroute/config
+
+# bari: jump host. IdentitiesOnly + the public key file makes ssh ask 1Password for just
+# this key; several refused offers trip bari's "Too many authentication failures".
+Host bari
+  HostName bari.zbh.uni-hamburg.de
+  Port 7373
+  User mrueve
+  IdentityFile ~/.ssh/zbh.pub
+  IdentitiesOnly yes
+
+# ForwardAgent so git on hessen can push to Gerrit with the 1Password key.
+Host hessen
+  HostName hessen
+  User mrueve
+  ProxyJump bari
+  ForwardAgent yes
+  IdentityFile ~/.ssh/zbh.pub
+  IdentitiesOnly yes
+
+Host *
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"

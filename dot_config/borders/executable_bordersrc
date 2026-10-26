@@ -1,0 +1,3 @@
+#!/bin/bash
+# JankyBorders (brew services start borders): active-window border, Catppuccin blue → overlay0.
+borders style=round width=6.0 hidpi=on active_color=0xff89b4fa inactive_color=0x006c7086 order=below

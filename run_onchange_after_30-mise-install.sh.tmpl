@@ -1,0 +1,13 @@
+{{ if .isHessen -}}
+#!/bin/bash
+# mise config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+set -euo pipefail
+mkdir -p ~/.local/bin
+if [[ ! -x ~/.local/bin/mise ]]; then
+  # Redirect instead of `curl -o`: hessen's AppArmor only lets curl write to /tmp.
+  curl -fsSL https://mise.run > /tmp/mise-install.sh
+  MISE_INSTALL_PATH=~/.local/bin/mise sh /tmp/mise-install.sh
+  rm -f /tmp/mise-install.sh
+fi
+~/.local/bin/mise install --yes
+{{ end -}}

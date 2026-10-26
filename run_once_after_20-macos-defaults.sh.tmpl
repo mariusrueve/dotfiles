@@ -1,0 +1,41 @@
+{{ if .isMac -}}
+#!/bin/bash
+# macOS settings (formerly nix-darwin system.defaults). Runs once; re-run with
+# `chezmoi state delete-bucket --bucket=scriptState && chezmoi apply`.
+set -euo pipefail
+
+d() { defaults write "$@"; }
+d NSGlobalDomain AppleInterfaceStyle -string Dark
+d NSGlobalDomain KeyRepeat -int 2
+d NSGlobalDomain InitialKeyRepeat -int 15
+d NSGlobalDomain ApplePressAndHoldEnabled -bool false   # key repeat instead of accent popup (hjkl)
+d NSGlobalDomain AppleShowAllExtensions -bool true
+d NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+d NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+d NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+d NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false # AeroSpace hides windows off-screen
+
+d com.apple.dock autohide -bool true
+d com.apple.dock show-recents -bool false
+d com.apple.dock mru-spaces -bool false
+d com.apple.dock expose-group-apps -bool true
+d com.apple.dock tilesize -int 48
+
+d com.apple.finder AppleShowAllFiles -bool true
+d com.apple.finder ShowPathbar -bool true
+d com.apple.finder FXPreferredViewStyle -string Nlsv
+d com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+d com.apple.spaces spans-displays -bool true # AeroSpace handles monitors itself
+d com.apple.AppleMultitouchTrackpad Clicking -bool true
+d com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+mkdir -p ~/Pictures/Screenshots
+d com.apple.screencapture location -string ~/Pictures/Screenshots
+
+killall Dock Finder SystemUIServer 2>/dev/null || true
+
+if ! grep -q pam_tid /etc/pam.d/sudo_local 2>/dev/null; then
+  echo "Touch ID for sudo is not set up. Run once:"
+  echo "  printf 'auth optional /opt/homebrew/lib/pam/pam_reattach.so\nauth sufficient pam_tid.so\n' | sudo tee /etc/pam.d/sudo_local"
+fi
+{{ end -}}

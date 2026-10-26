@@ -1,0 +1,6 @@
+{{- $hessen := eq .chezmoi.hostname "hessen" -}}
+[data]
+    isMac = {{ eq .chezmoi.os "darwin" }}
+    isHessen = {{ $hessen }}
+    # Gerrit at the university wants the uni address.
+    email = {{ if $hessen }}"marius.rueve@uni-hamburg.de"{{ else }}"44000950+mariusrueve@users.noreply.github.com"{{ end }}

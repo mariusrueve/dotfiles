@@ -1,0 +1,20 @@
+# hessen: CLI tools without root (installed to ~/.local/share/mise on NFS).
+# Update: `mise upgrade`. Applied by chezmoi (run_onchange_after_30-mise-install.sh).
+[tools]
+neovim = "latest"
+starship = "latest"
+eza = "latest"
+bat = "latest"
+zoxide = "latest"
+fzf = "latest"
+fd = "latest"
+ripgrep = "latest"
+lazygit = "latest"
+yazi = "latest"
+btop = "latest"
+gh = "latest"
+direnv = "latest"
+uv = "latest"
+node = "lts"
+jq = "latest"
+tree-sitter = "latest"

@@ -1,0 +1,6 @@
+{{ if .isMac -}}
+#!/bin/bash
+# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+set -euo pipefail
+/opt/homebrew/bin/brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile"
+{{ end -}}

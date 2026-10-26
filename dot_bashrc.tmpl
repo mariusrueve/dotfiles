@@ -1,0 +1,83 @@
+# Managed by chezmoi (~/.local/share/chezmoi/dot_bashrc.tmpl). Edit with `chezmoi edit ~/.bashrc`.
+
+# ── Environment (also for non-interactive shells) ────────────────────────
+{{- if .isMac }}
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{- end }}
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR=nvim VISUAL=nvim
+{{- if .isHessen }}
+export LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 COLORTERM=truecolor
+# uv's cache and venvs can sit on different filesystems: hardlinks can't cross.
+export UV_LINK_MODE=copy
+# Pythons from `uv python install` go to NFS, so venvs built from them also work in SGE jobs.
+export UV_PYTHON_INSTALL_DIR=/work/stud2022/mrueve/opt/uv-python
+{{- end }}
+
+[[ $- == *i* ]] || return
+
+# ── Interactive ──────────────────────────────────────────────────────────
+{{- if .isHessen }}
+# The login environment sometimes passes a useless TERM. Leave multiplexers alone.
+if [[ -z "$TMUX" && (-z "$TERM" || "$TERM" == "vt220" || "$TERM" == "dumb") ]]; then
+  export TERM=xterm-256color
+fi
+# Tools installed by mise (~/.config/mise/config.toml).
+command -v mise >/dev/null && eval "$(mise activate bash)"
+{{- end }}
+
+HISTCONTROL=ignoredups:erasedups
+HISTFILESIZE=10000
+HISTSIZE=10000
+shopt -s histappend checkwinsize globstar
+
+alias ..='cd ..'
+alias gs='git status'
+alias ls='eza --icons=auto --git'
+alias ll='ls -la'
+alias lla='ls -la'
+alias la='ls -A'
+alias lt='ls --tree'
+
+if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
+{{- if .isMac }}
+  [[ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]] && . /opt/homebrew/etc/profile.d/bash_completion.sh
+{{- else }}
+  [[ -r /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
+{{- end }}
+fi
+
+# fzf: Ctrl-R history, Ctrl-T insert file, Alt-C cd. Catppuccin Mocha colours.
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git"
+export FZF_DEFAULT_OPTS="--color bg:#1e1e2e,bg+:#313244,fg:#cdd6f4,fg+:#cdd6f4,header:#89b4fa,hl:#89b4fa,hl+:#89b4fa,info:#89b4fa,marker:#89b4fa,pointer:#89b4fa,prompt:#89b4fa,spinner:#f5e0dc"
+command -v fzf >/dev/null && eval "$(fzf --bash)"
+
+# yazi: `y` opens it and cds into the last directory on exit.
+y() {
+  local tmp cwd
+  tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+  command yazi "$@" --cwd-file="$tmp"
+  if cwd="$(<"$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+{{- if .isMac }}
+
+# LabRoute (cask): export http(s)_proxy while it runs, unset them otherwise.
+if [ -x /Applications/LabRoute.app/Contents/MacOS/labroute ]; then
+  _labroute_env() { eval "$(/Applications/LabRoute.app/Contents/MacOS/labroute env)"; }
+  PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND;}_labroute_env"
+fi
+
+if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
+  export KITTY_SHELL_INTEGRATION="no-rc"
+  source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"
+fi
+{{- end }}
+
+command -v direnv >/dev/null && eval "$(direnv hook bash)"
+[[ $TERM != dumb ]] && command -v starship >/dev/null && eval "$(starship init bash --print-full-init)"
+command -v zoxide >/dev/null && eval "$(zoxide init bash)"

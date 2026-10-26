@@ -1,0 +1,9 @@
+# tmux plugins (formerly provided by Home Manager). Refreshed weekly by `chezmoi apply`.
+[".config/tmux/plugins/sensible"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tmux-sensible.git"
+    refreshPeriod = "168h"
+[".config/tmux/plugins/catppuccin"]
+    type = "git-repo"
+    url = "https://github.com/catppuccin/tmux.git"
+    refreshPeriod = "168h"
